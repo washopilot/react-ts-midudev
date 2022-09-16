@@ -26,7 +26,6 @@ const INITIAL_STATE = [
 
 const App = () => {
     const [subs, setSubs] = useState<AppState['subs']>([]);
-    const [newSubsNumber, setNewSubsNumber] = useState<AppState['newSubsNumber']>(0);
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -34,7 +33,7 @@ const App = () => {
     }, []);
 
     const handleNewSub = (newSub: Sub): void => {
-        setSubs((subs) => [...subs, newSub]);
+        setSubs((prev) => [...prev, newSub]);
     };
 
     return (

@@ -6,7 +6,7 @@ interface FormState {
 }
 
 interface IFormProps {
-    onNewSub: (newFormSub: Sub) => void;
+    onNewSub: (newSubForm: Sub) => void;
 }
 
 const Form = ({ onNewSub }: IFormProps) => {

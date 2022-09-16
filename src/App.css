@@ -9,6 +9,12 @@ body {
     text-align: center;
 }
 
+textarea {
+    font-family: inherit;
+    margin: 8px 0;
+    padding-left: 5px;
+}
+
 code {
     font-family: 'Courier New', Courier, monospace;
 }
@@ -43,11 +49,5 @@ form input {
     border: 1px solid #ccc;
     border-radius: 2px;
     padding: 4px 6px;
-    margin: 0 4px;
-}
-
-textarea {
-    font-family: inherit;
-    margin: 8px 4px;
-    padding-left: 5px;
+    margin: 0 0 4px;
 }
