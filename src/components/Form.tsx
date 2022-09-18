@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useReducer } from 'react';
 import { Sub } from '../models';
 
 interface FormState {
@@ -9,22 +9,64 @@ interface IFormProps {
     onNewSub: (newSubForm: Sub) => void;
 }
 
+const INITIAL_STATE = {
+    nick: '',
+    subMonths: 0,
+    avatar: '',
+    description: ''
+};
+
+type FormReducerAction =
+    | {
+          type: 'change_value';
+          payload: {
+              inputName: string;
+              inputValue: string;
+          };
+      }
+    | {
+          type: 'clear';
+      };
+
+const formReducer = (state: FormState['inputValues'], action: FormReducerAction) => {
+    switch (action.type) {
+        case 'change_value': {
+            const { inputName, inputValue } = action.payload;
+            return {
+                ...state,
+                [inputName]: inputValue
+            };
+        }
+        case 'clear':
+            return INITIAL_STATE;
+    }
+};
+
 const Form = ({ onNewSub }: IFormProps) => {
-    const [inputValues, setInputValues] = useState<FormState['inputValues']>({
-        nick: '',
-        subMonths: 0,
-        avatar: '',
-        description: ''
-    });
+    const [inputValues, dispatch] = useReducer(formReducer, INITIAL_STATE);
+
     const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
         evt.preventDefault();
         onNewSub(inputValues);
+        dispatch({
+            type: 'clear'
+        });
     };
 
     const handleChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setInputValues({
-            ...inputValues,
-            [evt.target.name]: evt.target.value
+        const { name, value } = evt.target;
+        dispatch({
+            type: 'change_value',
+            payload: {
+                inputName: name,
+                inputValue: value
+            }
+        });
+    };
+
+    const handleClear = () => {
+        dispatch({
+            type: 'clear'
         });
     };
 
@@ -52,7 +94,10 @@ const Form = ({ onNewSub }: IFormProps) => {
                     name="description"
                     placeholder="description"
                 />
-                <button>Save new sub!</button>
+                <button type={'button'} onClick={handleClear}>
+                    Clear the form
+                </button>
+                <button type={'submit'}>Save new sub!</button>
             </form>
         </div>
     );
