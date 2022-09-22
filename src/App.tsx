@@ -17,7 +17,7 @@ const App = () => {
 
     useEffect(() => {
         const fetchSubs = (): Promise<SubFromApi[]> => {
-            return fetch('http://localhost:8000/subs').then((res) => res.json());
+            return fetch('http://localhost:3000/subs').then((res) => res.json());
         };
 
         const mapFromApiToSubs = (apiResponse: SubFromApi[]): Sub[] => {
